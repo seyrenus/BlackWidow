@@ -36,10 +36,6 @@
 
 ![avater](img/answer.png)
 
-题目过滤
-
-![avater](img/filter.png)
-
 ### 4、离线题库
 
 ![avater](img/database.png)
