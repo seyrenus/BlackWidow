@@ -1,6 +1,6 @@
 # BlackWidow
 
-### 黑寡妇
+## 黑寡妇
 
 用于管理本地代码，联网获取题目，管理题目作为题库进行刷题
 
@@ -55,12 +55,6 @@ OS：5.0.2-2-MANJARO x86_64 GNU/Linux
 Qt Creator：4.8.2
 
 GCC：8.2.1
-
-## Structure
-
-### OJ columns
-
-Platform Name Detail Level Type answer tip Language Submit Passed Rate
 
 ## Version
 
@@ -181,17 +175,3 @@ OJSpider 改名为BlackWidow（黑寡妇）；
 初始界面、网络连接、文件操作、菜单、菜单栏
 
 ## 参考文档
-
-[1]3D数学基础：图形与游戏开发.Fletcher Dunn,Ian Parberry著.史银雪，陈洪，王荣静译.清华大学出版社.2005.7
-
-[2]版本控制之道----使用Git 程序员修炼三部曲 第一部.Travis Swicegood 著.董越 付昭伟 等译.电子工业出版社.2010.5.
-
-[3]SQLITE 常用函数.https://www.w3cschool.cn/sqlite/sqlite-tutorial.html.Copyright © 2018 w3cschool.cn All Rights Reserved.
-
-[4]C++ STL Reference Last modified on 6/23/2007 by Nate Kohl.
-
-[5]https://blog.csdn.net.tax10240809163com/article/details/50610637.
-
-[6]https://www.cnblogs.com/yjd_hycf_space/p/7495640.html
-
-[7]https://blog.csdn.net/damage233/article/details/81116115
