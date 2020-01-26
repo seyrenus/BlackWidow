@@ -1,7 +1,9 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
+#include "base.hpp"
+#include "dbprocessor.hpp"
+#include "jsonparser.hpp"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -15,7 +17,12 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+private slots:
+    void on_actionReset_triggered();
+
 private:
     Ui::MainWindow *ui;
+    DBProcessor *dbp;
+    JsonParser *jsonp;
 };
 #endif // MAINWINDOW_H
