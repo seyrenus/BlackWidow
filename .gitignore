@@ -38,3 +38,5 @@
 # Compiled Folders
 build-*
 *-build
+
+temp/
