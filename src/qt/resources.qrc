@@ -1,33 +1,26 @@
 <RCC>
     <qresource prefix="/">
-        <file>resources/icons/about.svg</file>
-        <file>resources/icons/clear.svg</file>
-        <file>resources/icons/delete.svg</file>
-        <file>resources/icons/edit.svg</file>
+        <file>resources/icons/spider.svg</file>
+        <file>resources/icons/pause.svg</file>
+        <file>resources/icons/previous.svg</file>
+        <file>resources/icons/play.svg</file>
         <file>resources/icons/exit.svg</file>
         <file>resources/icons/github.svg</file>
-        <file>resources/icons/insert.svg</file>
-        <file>resources/icons/leader.png</file>
-        <file>resources/icons/next.svg</file>
-        <file>resources/icons/pause.svg</file>
-        <file>resources/icons/play.svg</file>
-        <file>resources/icons/previous.svg</file>
-        <file>resources/icons/qt.png</file>
-        <file>resources/icons/spider.ico</file>
-        <file>resources/icons/spider.svg</file>
-        <file>resources/icons/submit.svg</file>
-        <file>resources/icons/update.svg</file>
-        <file>resources/icons/user.jpg</file>
-        <file>resources/skin/black.qss</file>
-        <file>resources/skin/gray.qss</file>
-        <file>resources/skin/light.qss</file>
-        <file>resources/user_agents.ini</file>
-        <file>resources/icons/open.svg</file>
+        <file>resources/icons/delete.svg</file>
+        <file>resources/icons/clear.svg</file>
         <file>resources/icons/save.svg</file>
-        <file>resources/icons/save_as.svg</file>
-        <file>resources/icons/black.svg</file>
-        <file>resources/icons/question.svg</file>
-        <file>resources/icons/property.svg</file>
+        <file>resources/icons/open.svg</file>
+        <file>resources/icons/next.svg</file>
+        <file>resources/icons/about.svg</file>
         <file>resources/icons/done.svg</file>
+        <file>resources/icons/reset.svg</file>
+        <file>resources/icons/spider.ico</file>
+        <file>resources/icons/leader.png</file>
+        <file>resources/icons/qt.png</file>
+        <file>resources/icons/user.jpg</file>
+        <file>resources/icons/save_as.svg</file>
+        <file>resources/themes/light.qss</file>
+        <file>resources/themes/gray.qss</file>
+        <file>resources/themes/black.qss</file>
     </qresource>
 </RCC>
