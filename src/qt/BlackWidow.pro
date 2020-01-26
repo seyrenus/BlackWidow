@@ -6,9 +6,9 @@
 
 QT       += core gui widgets network sql
 
-TARGET = Blackwidow
 TEMPLATE = app
 DEFINES += QT_DEPRECATED_WARNINGS
+
 CONFIG += c++11
 DESTDIR = bin
 OBJECTS_DIR = tmp/obj
@@ -21,9 +21,11 @@ SOURCES += \
         mainwindow.cpp
 
 HEADERS += \
+        base.hpp \
         blackwidow.hpp \
         database.hpp \
         highlighter.hpp \
+        json.hpp \
         mainwindow.h \
         spider.hpp
 
@@ -32,8 +34,3 @@ FORMS += \
 
 RESOURCES += \
     resources.qrc
-
-RC_FILE += \
-   icon.rc
-ICON += \
-   icon.rc
