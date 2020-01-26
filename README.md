@@ -1,10 +1,14 @@
 # BlackWidow
 
-## 黑寡妇
+## 说明
 
-用于管理本地代码，联网获取题目，管理题目作为题库进行刷题
+OJ爬虫
 
-考虑到本地数据库有一百多兆，压缩后也有15M左右，离线数据库放置于release中。
+离线题目管理
+
+题库
+
+使用最长子串的sha256值进行相似度判断
 
 ## Function
 
@@ -48,21 +52,17 @@
 
 ![avater](img/skins.png)
 
-Qmake：5.12.2
-
-OS：5.0.2-2-MANJARO x86_64 GNU/Linux
-
-Qt Creator：4.8.2
-
-GCC：8.2.1
-
 ## Version
+
+2020.1.26：
+
+重置项目；
 
 2019.7.20:
 
 移除webview部件；
 
-合并insert 和 query 
+合并insert 和 query
 
 2019.5.4:
 
