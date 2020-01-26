@@ -1,7 +1,7 @@
 #ifndef HIGHLIGHTER_HPP
 #define HIGHLIGHTER_HPP
 //实现代码语法高亮
-#include "blackwidow.hpp"
+#include "base.hpp"
 
 #include <QSyntaxHighlighter>
 #include <QTextCharFormat>

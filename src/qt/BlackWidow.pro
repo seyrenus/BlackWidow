@@ -22,7 +22,6 @@ SOURCES += \
 
 HEADERS += \
         base.hpp \
-        blackwidow.hpp \
         database.hpp \
         highlighter.hpp \
         json.hpp \

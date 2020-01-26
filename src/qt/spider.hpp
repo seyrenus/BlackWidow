@@ -1,7 +1,7 @@
 #ifndef SPIDER_HPP
 #define SPIDER_HPP
 
-#include "blackwidow.hpp"
+#include "base.hpp"
 #include "database.hpp"
 #include <QObject>
 

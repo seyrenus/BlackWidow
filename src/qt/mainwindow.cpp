@@ -252,24 +252,6 @@ void MainWindow::on_actionGitHub_triggered()
     QDesktopServices::openUrl(QUrl("https://github.com/JackeyLea/BlackWidow"));
 }
 
-void MainWindow::on_actionBlack_triggered()
-{
-    qDebug()<<"Change theme to black";
-    this->setStyleSheet(loadSkin("black"));
-}
-
-void MainWindow::on_actionGray_triggered()
-{
-    qDebug()<<"Change theme to gray";
-    this->setStyleSheet(loadSkin("gray"));
-}
-
-void MainWindow::on_actionLight_triggered()
-{
-    qDebug()<<"Change theme to light";
-    this->setStyleSheet(loadSkin("light"));
-}
-
 void MainWindow::on_actionExit_triggered()
 {
     qApp->exit(0);

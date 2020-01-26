@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "blackwidow.hpp"
+#include "base.hpp"
 #include "database.hpp"
 #include "highlighter.hpp"
 #include "spider.hpp"
@@ -44,12 +44,6 @@ private slots:
     void on_actionQt_triggered();
 
     void on_actionGitHub_triggered();
-
-    void on_actionBlack_triggered();
-
-    void on_actionGray_triggered();
-
-    void on_actionLight_triggered();
 
     void on_actionExit_triggered();
 

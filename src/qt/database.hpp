@@ -1,12 +1,7 @@
 #ifndef DATABASE_HPP
 #define DATABASE_HPP
 
-#include "blackwidow.hpp"
-
-#include <QSqlError>
-#include <QSqlDatabase>
-#include <QSqlQuery>
-#include <QSqlTableModel>
+#include "base.hpp"
 
 #define MAX_P 0.25f
 #define MAX_L 4
@@ -196,6 +191,5 @@ public:
     int resultValue;
     QSqlTableModel *model;
 };
-
 
 #endif // DATABASE_HPP
