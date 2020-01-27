@@ -54,15 +54,17 @@ public:
         //生成新数据库
         db.setDatabaseName(dbFilePath);
         db.open();
-        if(query->exec(sql)){
-            qDebug()<<"Reset db successfully";
-            return true;
+        QStringList sqllist;
+        sqllist <<"BEGIN TRANSACTION;"
+        <<"CREATE TABLE IF NOT EXISTS \"md5\" (\"id\"	INTEGER NOT NULL UNIQUE,\"value\"	TEXT NOT NULL,PRIMARY KEY(\"id\"));"
+        <<"CREATE TABLE IF NOT EXISTS \"data\" (\"id\"	INTEGER NOT NULL UNIQUE,\"platform\"	TEXT,\"name\"	TEXT NOT NULL,\"detail\"	TEXT NOT NULL,\"answer\"	TEXT,\"tip\"	TEXT,\"cata\"	TEXT,\"level\"	TEXT,\"submit\"	TEXT,\"passed\"	TEXT,\"rate\"	TEXT,\"language\"	TEXT,\"status\"	INTEGER,PRIMARY KEY(\"id\"));"
+        <<"COMMIT;";
+        foreach(QString sql,sqllist){
+            if(!query->exec(sql)){
+                qDebug()<<"Cannot exec sql: "<<query->lastError();
+                return false;
+            }
         }
-        else{
-            qDebug()<<"Cannot reset db: "<<query->lastError();
-            return false;
-        }
-
         return true;
     }
 
