@@ -48,7 +48,7 @@
 #define IndexUrl "https://github.com/JackeyLea/BlackWidow"
 
 //数据库表列名结构体
-extern struct data_ {
+struct data_ {
     int     id;
     int     platform;
     int     level;
@@ -62,10 +62,10 @@ extern struct data_ {
     QString passed;
     QString rate;
     QString cata;
-} spiderStruct;
+};
 
 //配置文件中的值名称
-extern struct conf_ {
+struct conf_ {
     bool status=false;//此结构体是否可以使用
     int     begin;
     QString url;
@@ -90,7 +90,20 @@ extern struct conf_ {
         passed.clear();
         rate.clear();
     }
-} Conf;
+    void operator = (const conf_& b) {
+        status = b.status;
+        begin = b.begin;
+        url = b.url;
+        name = b.name;
+        detail = b.detail;
+        level = b.level;
+        type = b.type;
+        language = b.language;
+        submit = b.submit;
+        passed = b.passed;
+        rate = b.rate;
+    }
+};
 
 //加载皮肤
 inline QString loadTheme(QString themeName) {

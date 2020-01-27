@@ -30,6 +30,7 @@ public:
     }
 
     ~DBProcessor(){
+        qDebug()<<"DBProcessor::~DBProcessor()";
         delete query;
         db.close();
     }
@@ -79,6 +80,21 @@ public:
             return -1;
         }
         return id;
+    }
+
+    QStringList getTableList(QString tableName){
+        QStringList resultList;
+        query->prepare(QString("select value from %1").arg(tableName));
+        if(query->exec()){
+            while(query->next()){
+                resultList += query->value(0).toString();
+            }
+        }
+        else{
+            qDebug()<<"Cannot query data from database: "<<query->lastError();
+            return resultList;
+        }
+        return resultList;
     }
 };
 

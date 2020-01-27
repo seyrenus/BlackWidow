@@ -29,7 +29,10 @@ HEADERS += \
     base.hpp \
     dbprocessor.hpp \
     jsonparser.hpp \
-    mainwindow.h
+    mainwindow.h \
+    md5.hpp \
+    similarity.hpp \
+    spider.hpp
 
 FORMS += \
     mainwindow.ui
