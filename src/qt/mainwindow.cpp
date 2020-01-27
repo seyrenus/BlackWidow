@@ -4,6 +4,9 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
+    , model(new QStandardItemModel())
+    , currentId(1)
+    , isStart(false)
 {
     ui->setupUi(this);
     qDebug()<<"Main::MainWIndow()";
@@ -16,6 +19,30 @@ MainWindow::MainWindow(QWidget *parent)
     this->setStyleSheet(loadTheme(theme));
 
     dbp = new DBProcessor("main",dbPath);
+    idMax = dbp->getMaxId("data");//获取数据库中最大的ID
+    ui->QLineId->setText(QString::number(idMax));//界面上面的ID栏
+    //添加平台数据
+    jsonp->openJsonFile(QDir::currentPath()+QDir::separator()+"website.json");
+    QStringList platform = jsonp->loadPlatform();
+    ui->QCBPlatform->addItems(platform);//添加平台名称至下拉列表
+    ui->spiderComboPlatform->addItems(platform);
+
+    ojspider = new Spider();
+    connect(ojspider,&Spider::countChanged,this,&MainWindow::countChanged);
+    connect(ojspider,&Spider::displayMsg,this,&MainWindow::displayMsg);
+    connect(ojspider,&Spider::updateModel,this,&MainWindow::updateModel);
+
+    //初始化界面
+    QString jsonFilePath = QDir::currentPath() + QDir::separator() + "website.json";
+    jsonp = new JsonParser(jsonFilePath);
+
+    //设置表格界面
+    model->setColumnCount(3);
+    model->setHorizontalHeaderItem(0,new QStandardItem("name"));
+    model->setHorizontalHeaderItem(1,new QStandardItem("platform"));
+    model->setHorizontalHeaderItem(2,new QStandardItem("id"));
+    ui->spiderTableView->horizontalHeader()->setStretchLastSection(true);
+    ui->spiderTableView->setModel(model);
 }
 
 MainWindow::~MainWindow()
@@ -35,7 +62,7 @@ void MainWindow::displayDetailById(int qid)
         return;
     }
      qDebug()<<"Current display question id: "<<currentId;
-     QString sql = QString("select * from data where id=%1").arg(currentId);
+     sql = QString("select * from data where id=%1").arg(currentId);
      dbp->query->prepare(sql);
      if(dbp->query->exec()){
          while(dbp->query->next()){
@@ -93,6 +120,48 @@ void MainWindow::updateModel(QList<QStandardItem *> rowList)
 {
     model->appendRow(rowList);
     ui->spiderTableView->setModel(model);
+}
+
+void MainWindow::dataProcessor()
+{
+    int result = 0;
+    qDebug()<<"result value is: "<<result;
+    if(result >0){
+        QString tip = QString("Current question is same to id: %1").arg(result);
+        QMessageBox::information(this,tr("Warning"),tip,QMessageBox::Ok);
+        on_actionClear_triggered();
+        return;
+    }
+    else{
+        idMax = dbp->getMaxId("data");
+        sql = "insert into data values(:id,:platform,:name,:question,:answer,:tip,:cata,:type,:level)";
+        dbp->query->prepare(sql);
+        dbp->query->bindValue(":id",++idMax);
+        int platform = ui->QCBPlatform->currentIndex()+1;
+        dbp->query->bindValue(":platform",platform);
+        dbp->query->bindValue(":name",ui->QLineName->text());
+        dbp->query->bindValue(":question",ui->QTextQuestion->toPlainText());
+        dbp->query->bindValue(":answer",ui->QTextAnswer->toPlainText());
+        dbp->query->bindValue(":tip",ui->QTextTip->toPlainText());
+        dbp->query->bindValue(":cata",ui->QPlainTextCata->toPlainText());
+        int level = ui->QCBLevel->currentIndex()+1;
+        dbp->query->bindValue(":level",level);
+        dbp->query->bindValue(":id",idMax);
+        if(dbp->query->exec()){
+            qDebug()<<"Insert one question into table";
+            on_actionClear_triggered();
+            ui->QLineId->setText(QString::number(idMax));
+        }
+        else{
+            qDebug()<<"Cannot insert data into table task: "<<dbp->query->lastError();
+        }
+    }
+    //dbp->wait();
+}
+
+void MainWindow::displayMsg(QString msg)
+{
+    QMessageBox::information(this,tr("Tips"),msg,QMessageBox::Ok);
 }
 
 void MainWindow::on_actionReset_triggered()
@@ -195,7 +264,7 @@ void MainWindow::on_actionDone_triggered()
 {
     if(isStart){
         idMax = dbp->getMaxId("data");
-        QString sql = QString("update data set status = '1' where id= %1").arg(currentId);
+        sql = QString("update data set status = '1' where id= %1").arg(currentId);
         dbp->query->prepare(sql);
         if(dbp->query->exec()){
             QMessageBox::information(this,tr("Tip"),tr("Set this question status: done"),QMessageBox::Ok);
@@ -273,14 +342,13 @@ void MainWindow::on_QButtonShowAnswer_clicked()
 void MainWindow::on_spiderButtonStart_clicked()
 {
     QString name = ui->spiderComboPlatform->currentText();
-    emit platformName(name);
     ojspider->dbPath = dbPath;
+    ojspider->cntPlatformName = name;
     ojspider->start();
 }
 //多线程获取数据，一次性获得所有平台数据
 void MainWindow::on_spiderButtonStartAll_clicked()
 {
-
 }
 //停止爬虫行为
 void MainWindow::on_spiderButtonStop_clicked()
@@ -302,7 +370,7 @@ void MainWindow::on_spiderComboPlatform_currentIndexChanged(int index)
         model->setHorizontalHeaderItem(2,new QStandardItem("id"));
         ui->spiderTableView->horizontalHeader()->setStretchLastSection(true);
         ui->spiderTableView->setModel(model);
-        //ojspider->Conf = js->getPlatfromValues(platform);
-        //qDebug()<<ojspider->Conf.status;
+        ojspider->Conf = jsonp->getPlatfromValues(platform);
+        qDebug()<<"Main::testing url is: "<<ojspider->Conf.url;
     }
 }

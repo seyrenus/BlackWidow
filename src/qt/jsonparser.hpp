@@ -5,7 +5,7 @@
 
 class JsonParser{
 public:
-private:
+//private:
     QFile jsonFile;
     QByteArray jsonData;
 public:
@@ -50,6 +50,7 @@ public:
         QJsonObject rootObj = jsonDoc.object();
         QStringList keys = rootObj.keys();
         platform_list.append(keys);
+        qDebug()<<"platform list is: "<<platform_list;
 
         return platform_list;
     }
@@ -77,7 +78,6 @@ public:
         Conf.begin = platformObj.value("begin").toInt();
         Conf.name = platformObj.value("name").toString();
         Conf.detail = platformObj.value("detail").toString();
-        qDebug()<<"conf detail: "<<Conf.detail;
         Conf.level = platformObj.value("level").toString();
         Conf.type = platformObj.value("type").toString();
         Conf.language = platformObj.value("language").toString();

@@ -17,16 +17,15 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-
     void displayDetailById(int qid);
-signals:
-    void platformName(QString name);
 
 public slots:
     void countChanged(int count);
     void updateModel(QList<QStandardItem *> rowList);
 
 private slots:
+    void dataProcessor();
+    void displayMsg(QString msg);
     void on_actionReset_triggered();
 
     void on_actionExit_triggered();
@@ -74,6 +73,7 @@ private:
     QStandardItemModel *model;
 
     QString dbPath;
+    QString sql;//数据库语句
 
     int currentId;//现在正在处理的ID
     int idMax;//最大ID值

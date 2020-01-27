@@ -8,11 +8,12 @@
 class Spider: public QObject{
     Q_OBJECT
 public:
-    QString dbPath;
-    conf_ Conf;
+    QString dbPath;//数据库位置
+    conf_ Conf;//配置文件数据结构体
+    QString cntPlatformName;//当前的平台名称
+
 private:
     DBProcessor *dbp;
-    QString cntPlatformName;
     QStandardItemModel *model;
     QString sql;
     QStringList endMark;//用于判断是否获取结束
@@ -111,11 +112,6 @@ public:
                 dbp->query->bindValue(":level",level);
                 QString cata = filterHtmlText(context,Conf.type);
                 dbp->query->bindValue(":cata",cata);
-                //题目分类
-                dbp->query->bindValue(":type","OJ");
-                //题目描述语言
-                QString language=filterHtmlText(context,Conf.language);
-                dbp->query->bindValue(":language",language);
                 //提交数
                 QString submit = filterHtmlText(context,Conf.submit);
                 dbp->query->bindValue(":submit",submit.toInt());
@@ -149,7 +145,7 @@ public:
             if((count%49==0||count%75==0||count%126==0)&&status){
                 sleep(4000);
             }
-            //如果错误题目数大于30就停止爬虫
+            //如果错误题目数大于100就停止爬虫
         }while(errorNum<=100&&!Stopped);
         qDebug()<<"All question retrive done";
         emit displayMsg(QString("All question retrive done"));
@@ -256,11 +252,6 @@ signals:
     void countChanged(int count);
     void displayMsg(QString msg);
     void updateModel(QList<QStandardItem *> rowList);
-
-public slots:
-    void getPlatformName(QString name){
-        cntPlatformName = name;
-    }
 };
 
 #endif // SPIDER_HPP
