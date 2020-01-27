@@ -19,5 +19,6 @@
         <file>resources/themes/black.qss</file>
         <file>resources/icons/question.svg</file>
         <file>resources/init.sql</file>
+        <file>resources/user_agents.ini</file>
     </qresource>
 </RCC>
