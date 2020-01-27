@@ -79,7 +79,7 @@ public:
         Conf.name = platformObj.value("name").toString();
         Conf.detail = platformObj.value("detail").toString();
         Conf.level = platformObj.value("level").toString();
-        Conf.type = platformObj.value("type").toString();
+        Conf.cata = platformObj.value("cata").toString();
         Conf.language = platformObj.value("language").toString();
         Conf.submit = platformObj.value("submit").toString();
         Conf.passed = platformObj.value("passed").toString();

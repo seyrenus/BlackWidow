@@ -54,10 +54,8 @@ struct data_ {
     int     level;
     QString name;
     QString question;
-    QString type;
     QString tip;
     QString answer;
-    QString language;
     QString submit;
     QString passed;
     QString rate;
@@ -72,7 +70,7 @@ struct conf_ {
     QString name;
     QString detail;
     QString level;
-    QString type;
+    QString cata;
     QString language;
     QString submit;
     QString passed;
@@ -84,7 +82,7 @@ struct conf_ {
         name.clear();
         detail.clear();
         level.clear();
-        type.clear();
+        cata.clear();
         language.clear();
         submit.clear();
         passed.clear();
@@ -97,7 +95,7 @@ struct conf_ {
         name = b.name;
         detail = b.detail;
         level = b.level;
-        type = b.type;
+        cata = b.cata;
         language = b.language;
         submit = b.submit;
         passed = b.passed;

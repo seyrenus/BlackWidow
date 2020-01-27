@@ -6,24 +6,18 @@
  * @License:LGPL3
  * @Function:计算文本相似度
  * @Description:筛选文本中最长的5个句子，计算其MD5值，存储至数据库中，
- *              添加新MD5值时先检测是否存在相同的MD5值
+ *                            添加新MD5值时先检测是否存在相同的MD5值
  */
 
 #ifndef SIMILARITY_HPP
 #define SIMILARITY_HPP
 
 #include "base.hpp"
-#include "dbprocessor.hpp"
 #include "md5.hpp"
 
 class Similarity{
-private:
-    DBProcessor *dbp;
-    QString sql;
 public:
-    Similarity(){
-        dbp = new DBProcessor("similarity","");
-    }
+    Similarity(){}
 
     ~Similarity(){}
 
@@ -58,29 +52,11 @@ public:
         return result;
     }
 
-    bool save2db(QString md5){
-        sql.clear();
-        int maxID = dbp->getMaxId("md5");
-        sql = QString("insert into md5 values(:id,:value)");
-        dbp->query->prepare(sql);
-        dbp->query->bindValue(":id",maxID);
-        dbp->query->bindValue(":value",md5);
-        if(dbp->query->exec()){
-            qDebug()<<"Save value: "<<md5<<" into db";
-        }
-        else{
-            qDebug()<<"Cannot insert data into db: "<<dbp->query->lastError();
-            return false;
-        }
-
-        return true;
-    }
-
-    bool checkout(QString ctx){
+    QString checkout(QString ctx){
         //获取最长子串
         QString maxstr = filterMaxStr(ctx);
         QString md = getMD5(maxstr);
-        return save2db(md);
+        return md;
     }
 };
 

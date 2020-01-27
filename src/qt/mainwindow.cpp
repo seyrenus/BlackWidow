@@ -13,7 +13,7 @@ MainWindow::MainWindow(QWidget *parent)
     //加载配置文件
     QString configPath = QDir::currentPath()+QDir::separator()+"config.json";
     jsonp = new JsonParser(configPath);
-    QString dbPath = jsonp->getValue("db");
+    dbPath = jsonp->getValue("db");
     qDebug()<<"db path in config is: "<<dbPath;
     QString theme = jsonp->getValue("theme");
     this->setStyleSheet(loadTheme(theme));
@@ -66,13 +66,11 @@ void MainWindow::displayDetailById(int qid)
      dbp->query->prepare(sql);
      if(dbp->query->exec()){
          while(dbp->query->next()){
-             spiderData.type = dbp->query->value("type").toString();
              spiderData.level = dbp->query->value("level").toInt();
              spiderData.question = dbp->query->value("detail").toString();
              spiderData.answer = dbp->query->value("answer").toString();
              spiderData.tip = dbp->query->value("tip").toString();
              spiderData.id = currentId;
-             spiderData.language = dbp->query->value("language").toString();
              spiderData.name = dbp->query->value("name").toString();
              spiderData.passed = dbp->query->value("passed").toString();
              spiderData.rate = dbp->query->value("rate").toString();
@@ -341,10 +339,16 @@ void MainWindow::on_QButtonShowAnswer_clicked()
 //开始当前平台的爬虫行为
 void MainWindow::on_spiderButtonStart_clicked()
 {
-    QString name = ui->spiderComboPlatform->currentText();
-    ojspider->dbPath = dbPath;
-    ojspider->cntPlatformName = name;
-    ojspider->start();
+    qDebug()<<"Main::dbPath value is: "<<dbPath;
+    QString platform = ui->spiderComboPlatform->currentText();
+    ojspider->Conf = jsonp->getPlatfromValues(platform);
+    qDebug()<<"Main::testing url is: "<<ojspider->Conf.url;
+
+    ojspider->setdbPath(dbPath);
+    ojspider->setPlatformName(platform);
+    qDebug()<<"Main::spider dbPath is: "<<ojspider->dbPath;
+    ojspider->run();
+    //ojspider->start();
 }
 //多线程获取数据，一次性获得所有平台数据
 void MainWindow::on_spiderButtonStartAll_clicked()
@@ -370,7 +374,5 @@ void MainWindow::on_spiderComboPlatform_currentIndexChanged(int index)
         model->setHorizontalHeaderItem(2,new QStandardItem("id"));
         ui->spiderTableView->horizontalHeader()->setStretchLastSection(true);
         ui->spiderTableView->setModel(model);
-        ojspider->Conf = jsonp->getPlatfromValues(platform);
-        qDebug()<<"Main::testing url is: "<<ojspider->Conf.url;
     }
 }

@@ -4,8 +4,9 @@
 #include "base.hpp"
 #include "dbprocessor.hpp"
 #include "jsonparser.hpp"
+#include "similarity.hpp"
 
-class Spider: public QObject{
+class Spider: public QObject,public Similarity{
     Q_OBJECT
 public:
     QString dbPath;//数据库位置
@@ -14,6 +15,7 @@ public:
 
 private:
     DBProcessor *dbp;
+
     QStandardItemModel *model;
     QString sql;
     QStringList endMark;//用于判断是否获取结束
@@ -28,6 +30,11 @@ private:
     QList<int> idList;//当前操作的题目ID列表
 
     int id=-1;//数据库处理时所需要的ID
+
+signals:
+    void countChanged(int count);
+    void displayMsg(QString msg);
+    void updateModel(QList<QStandardItem *> rowList);
 
 public:
     Spider():
@@ -52,7 +59,15 @@ public:
         delete manager;
     }
 
-    void start()
+    void setdbPath(QString path){
+        dbPath =path;
+    }
+
+    void setPlatformName(QString name){
+        cntPlatformName = name;
+    }
+
+    void run()
     {
         if(dbPath.isEmpty()) {
             qDebug()<<"Didn't set the db path in spider start()";
@@ -72,17 +87,70 @@ public:
         int count=0;//成功计数
         bool status = false;//是否获取到第一个题目
         int currentNum = Conf.begin;//当前正在处理的ID，从第一题开始
-        qDebug()<<Stopped;
+        qDebug()<<"Spider::Stopped status is: "<<Stopped;
+
+        QString url = Conf.url;
+
         do{
-            QString platformUrl = Conf.url + QString::number(currentNum);
-            qDebug()<<"Spider ->platform url is: "<<platformUrl;
+            QString platformUrl = url + QString::number(currentNum);
+            qDebug()<<"Spider::current url is: "<<platformUrl;
             QString context = getPlatformCtx(platformUrl);
+
             if(context.isEmpty()){
+                qDebug()<<"HTML context is empty";
+                sleep(500);
                 errorNum++;
                 currentNum++;
                 continue;
             }
             else{
+                sql.clear();
+
+                //题目详细数据，用于计算MD5值
+                QString detail = filterHtmlText(context,Conf.detail);
+                //如果获取的题目数据为空，有可能是爬取速度太快了
+                if(detail.isEmpty()){
+                    sleep(500);
+                    currentNum++;//获取下一题
+                    errorNum++;
+                    continue;
+                }
+
+                //插入数据库之前先进行相似度判断
+                QString md5 = checkout(detail);//计算字符串MD5值
+                int count =-1;
+                //先确定MD5值是否已经存在
+                sql = QString("select count(*) from md5 where value=:value");
+                dbp->query->prepare(sql);
+                dbp->query->bindValue(":value",md5);
+                if(dbp->query->exec()){
+                    while (dbp->query->next()) {
+                        count = dbp->query->value(0).toInt();
+                    }
+                }
+                else{
+                    qDebug()<<"Similarity::Cannot query data from table md5 : "<<dbp->query->lastError();
+                }
+                if(count>0){
+                    qDebug()<<"Spider()::This question existed";
+                    currentNum++;
+                    continue;
+                }
+                else{//如果MD5值不存在就不MD5值插入数据库。
+                    int maxID = dbp->getMaxId("md5");
+                    sql = QString("insert into md5 values(:id,:value)");
+                    dbp->query->prepare(sql);
+                    dbp->query->bindValue(":id",++maxID);
+                    dbp->query->bindValue(":value",md5);
+                    if(dbp->query->exec()){
+                        qDebug()<<"Similarity::Save value: "<<md5<<" into db";
+                    }
+                    else{
+                        qDebug()<<"Similarity::Cannot insert data into db: "<<dbp->query->lastError();
+                    }
+                }
+                //-->相似度判断完毕
+
                 //保存数据到数据库
                 sql = "insert into data values(:id,:platform,:name,:question,"
                       ":answer,:tip,:cata,:level,:submit,:passed,:rate,:language,:status)";
@@ -93,25 +161,16 @@ public:
                 dbp->query->bindValue(":platform",cntPlatformName);
                 //题目名字
                 QString name = filterHtmlText(context,Conf.name);
-                dbp->query->bindValue(":name",name);
-                //题目详细数据
-                QString detail = filterHtmlText(context,Conf.detail);
-                if(detail.isEmpty()){
-                    sleep(500);
-                    currentNum++;//获取下一题
-                    errorNum++;
-                    continue;
-                }
+                dbp->query->bindValue(":name",name.remove(QRegExp("\t")));
                 dbp->query->bindValue(":question",detail);
                 //题目答案
                 dbp->query->bindValue(":answer","N/A");
                 //提示
                 dbp->query->bindValue(":tip","N/A");
-                //难度等级
-                QString level = filterHtmlText(context,Conf.level);
-                dbp->query->bindValue(":level",level);
-                QString cata = filterHtmlText(context,Conf.type);
+                QString cata = filterHtmlText(context,Conf.cata);
                 dbp->query->bindValue(":cata",cata);
+                QString level = filterHtmlText(context,Conf.level);                //难度等级
+                dbp->query->bindValue(":level",level);
                 //提交数
                 QString submit = filterHtmlText(context,Conf.submit);
                 dbp->query->bindValue(":submit",submit.toInt());
@@ -121,19 +180,25 @@ public:
                 //通过率
                 QString rate = filterHtmlText(context,Conf.rate);
                 dbp->query->bindValue(":rate",rate);
-                if(!dbp->query->exec()){
-                    qDebug()<<"Cannot insert data into database: "<<dbp->query->lastError();
-                    return;
-                }
-                else{
-                    qDebug()<<"Insert data successfully";
+                QString language = filterHtmlText(context,Conf.language);
+                dbp->query->bindValue(":language",language);
+                dbp->query->bindValue(":status","0");
+                //MD5不存在并且插入成功，将题目数据插入到数据库中
+                if(dbp->query->exec()){
+                    qDebug()<<"Spider()::Insert data into db successfully";
                     qDebug()<<"name is: "<<name<<" platform is: "<<cntPlatformName<<" id is: "<<maxRowId;
+                    //主界面显示部分
                     QList<QStandardItem *> rowList;
                     rowList<<new QStandardItem(name)<<new QStandardItem(cntPlatformName)<<new QStandardItem(QString::number(maxRowId));
                     emit updateModel(rowList);
-                    //model->appendRow(rowList);
                 }
-                //至此，数据保存完成
+                else{
+                    qDebug()<<"Spider()::Cannot insert data into database: "<<dbp->query->lastError();
+                    currentNum++;
+                    count++;
+                    continue;
+                }
+                //至此，一题的数据保存完成；进行下一题
                 status =true;
                 errorNum=0;
                 sleep(2000);
@@ -247,11 +312,6 @@ private:
 
         return source;
     }
-
-signals:
-    void countChanged(int count);
-    void displayMsg(QString msg);
-    void updateModel(QList<QStandardItem *> rowList);
 };
 
 #endif // SPIDER_HPP
