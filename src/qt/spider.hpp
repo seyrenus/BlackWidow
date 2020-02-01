@@ -12,13 +12,13 @@ public:
     QString dbPath;//数据库位置
     conf_ Conf;//配置文件数据结构体
     QString cntPlatformName;//当前的平台名称
+    QString endMark;//用于判断是否获取结束
 
 private:
     DBProcessor *dbp;
 
     QStandardItemModel *model;
     QString sql;
-    QStringList endMark;//用于判断是否获取结束
     //网络四件套
     QNetworkAccessManager *manager;
     QNetworkRequest request;
@@ -42,13 +42,13 @@ public:
     manager(new QNetworkAccessManager()){
         qDebug()<<"Spider()::Spider()";
         //各个平台的题目结束标志
-        endMark.append(QString("题目不可用!!"));///常州实验初中
-        endMark.append(QString("No Such Problem"));///福州大学 杭州电子科技大学
-        endMark.append(QString("403"));///杭州电子科技大学
-        endMark.append(QString("题目不存在"));/*NYOJ*/
-        endMark.append(QString("Can not find problem"));///POJ
-        endMark.append(QString("No such problem"));///zoj
-        endMark.append(QString("Problem is not Available!!"));///zjut
+//        endMark.append(QString("题目不可用!!"));///常州实验初中
+//        endMark.append(QString("No Such Problem"));///福州大学 杭州电子科技大学
+//        endMark.append(QString("403"));///杭州电子科技大学
+//        endMark.append(QString("题目不存在"));/*NYOJ*/
+//        endMark.append(QString("Can not find problem"));///POJ
+//        endMark.append(QString("No such problem"));///zoj
+//        endMark.append(QString("Problem is not Available!!"));///zjut
 
         loadUserAgent();//加载浏览器模拟头
     }
@@ -65,6 +65,11 @@ public:
 
     void setPlatformName(QString name){
         cntPlatformName = name;
+    }
+
+    void setEndMark(QString end){
+        endMark.clear();
+        endMark = end;
     }
 
     void run()
@@ -95,6 +100,7 @@ public:
             QString platformUrl = url + QString::number(currentNum);
             qDebug()<<"Spider::current url is: "<<platformUrl;
             QString context = getPlatformCtx(platformUrl);
+            qDebug()<<context;
 
             if(context.isEmpty()){
                 qDebug()<<"HTML context is empty";
@@ -261,6 +267,7 @@ private:
     //获取给定url的网页数据
     QString getPlatformCtx(QString url)
     {
+        assert(!endMark.isEmpty());
         QString source;//网页结果
         //******模拟浏览器****************
         request.setUrl(url);
@@ -278,8 +285,10 @@ private:
         loop.exec();
         //判断网页是否存在，是否有效
         int statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+        qDebug()<<"Spider()::Status code is: "<<statusCode;
         if(statusCode==200){
             QByteArray ba = reply->readAll();
+            //根据编码进行调整文字内容
             QTextCodec *codec = QTextCodec::codecForName("UTF-8");
             source = codec->toUnicode(ba);
             if(source.isEmpty())    return source;//没有数据就退出
@@ -297,13 +306,10 @@ private:
                 QTextCodec *codec = QTextCodec::codecForName(charset.toLocal8Bit());
                 source = codec->toUnicode(ba).toLocal8Bit();
             }
+            //->编码结束
 
             //如果网页内容中包含结束标志，则清空网页源文本
-            foreach(QString mark,endMark){
-                if(source.contains(mark)){
-                    source.clear();
-                }
-            }
+            if(source.contains(endMark)) source.clear();
         }
         else{
             //如果网页获取不正常，则清空网页内容

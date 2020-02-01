@@ -75,6 +75,7 @@ struct conf_ {
     QString submit;
     QString passed;
     QString rate;
+    QString end;
 
     void clear(){
         begin=0;
@@ -87,6 +88,7 @@ struct conf_ {
         submit.clear();
         passed.clear();
         rate.clear();
+        end.clear();
     }
     void operator = (const conf_& b) {
         status = b.status;
@@ -100,6 +102,7 @@ struct conf_ {
         submit = b.submit;
         passed = b.passed;
         rate = b.rate;
+        end = b.end;
     }
 };
 

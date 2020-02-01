@@ -341,11 +341,13 @@ void MainWindow::on_spiderButtonStart_clicked()
 {
     qDebug()<<"Main::dbPath value is: "<<dbPath;
     QString platform = ui->spiderComboPlatform->currentText();
-    ojspider->Conf = jsonp->getPlatfromValues(platform);
+    ojspider->Conf = jsonp->getPlatfromValues(platform);//重载运算符进行结构体赋值
     qDebug()<<"Main::testing url is: "<<ojspider->Conf.url;
+    qDebug()<<"Main::testing end mark is: "<<ojspider->Conf.end;
 
     ojspider->setdbPath(dbPath);
     ojspider->setPlatformName(platform);
+    ojspider->setEndMark(ojspider->Conf.end);
     qDebug()<<"Main::spider dbPath is: "<<ojspider->dbPath;
     ojspider->run();
     //ojspider->start();

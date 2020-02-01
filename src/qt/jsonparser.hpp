@@ -84,6 +84,7 @@ public:
         Conf.submit = platformObj.value("submit").toString();
         Conf.passed = platformObj.value("passed").toString();
         Conf.rate = platformObj.value("rate").toString();
+        Conf.end = platformObj.value("end").toString();
         //---->所有配置文件数据读取完成
         Conf.status = true;
         return Conf;
