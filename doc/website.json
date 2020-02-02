@@ -1,4 +1,20 @@
 {
+    "DOTCPP":{
+        "_comment":"",
+        "status":"undone",
+        "valid":"yes",
+        "url":"https://dotcpp.com/oj/problem1000.html",
+        "begin":1000,
+        "name":"",
+        "detail":"",
+        "level":"",
+        "cata":"",
+        "language":"",
+        "submit":"",
+        "passed":"",
+        "rate":"",
+        "end":""
+    },
     "FZU":{
         "valid":"no",
         "status":"undone",
@@ -11,9 +27,11 @@
         "language":"",
         "submit":"Submit: (.+)<br />",
         "passed":"Accept: (.+)&nbsp;",
-        "rate":""
+        "rate":"",
+        "end":""
     },
     "HDU":{
+        "_comment":"杭州电子科技大学",
         "valid":"yes",
         "status":"undone",
         "url":"http://acm.hdu.edu.cn/showproblem.php?pid=",
@@ -25,10 +43,11 @@
         "language":"",
         "submit":"Total Submission.+: (.+)&",
         "passed":"Accepted Submission.+: (.+)<br>",
-        "rate":""
+        "rate":"",
+        "end":""
     },
     "HI54":{
-        "_comment":"断点太多:1902",
+        "_comment":"郑州师范学院",
         "url":"http://acm.hi-54.com/problem.php?pid=",
         "begin":1000,
         "name":"<div class=\"container\">.+<h1 class=\"text-center\">(.+)</h1>.+<p class=\"text-center\">",
@@ -38,11 +57,13 @@
         "language":"",
         "submit":["REGEX","提交:<spna class=.+>(.+)</span>"],
         "passed":["REGEX","答案正确:<span class.+>(.+)</span>"],
-        "rate":""
+        "rate":"",
+        "end":""
     },
     "LUOGU":{
+        "comment":"洛谷",
         "url":"https://www.luogu.org/problemnew/show/P",
-        "begin":1134,
+        "begin":1000,
         "name":"</strong></a>(.+)</h1>",
         "detail":"<div class=\"am-u-md-8 lg-right\" name=\"problemleft\">(.+)<script>",
         "level":"<li><strong>难度</strong>.+<span class=\"lg-right\"><span class=\"am-badge am-radius lg-bg-orange\">(.+)</span></span>",
@@ -50,7 +71,8 @@
         "language":"",
         "submit":"<span class=\"lg-bignum-num\">(.+)<small>K</small><small></small></span><span class=\"lg-bignum-text\">通过</span>",
         "passed":"<span class=\"lg-bignum-num\">(.+)<small>K</small><small></small></span><span class=\"lg-bignum-text\">提交</span>",
-        "rate":""
+        "rate":"",
+        "end":""
     },
     "LYDSY":{
         "_comment":"大视野在线测评",
@@ -63,11 +85,15 @@
         "language":"",
         "submit":"Submit: </span>(.+)&nbsp;&nbsp;<span ",
         "passed":"Solved: </span>(.+)<br>",
-        "rate":""
+        "rate":"",
+        "end":""
     },
     "NYOJ":{
+        "_comment":"无法访问",
         "url":"http://nyoj.top/problem/",
-        "begin":769,
+        "valid":"no",
+        "status":"done",
+        "begin":1,
         "name":"<ul style=\"text-align: center;\">.+<h1>(.+)</h1>",
         "detail":"[class=problem-content]",
         "level":"难度:(.+)</span>",
@@ -75,12 +101,13 @@
         "language":"",
         "submit":"提交数:(.+)</span>",
         "passed":"通过数:(.+)</span>",
-        "rate":""
+        "rate":"",
+        "end":""
     },
     "POJ":{
-        "id range":"1000-4054",
-        "count":1,
+        "_comment":"北京大学",
         "status":"done",
+        "valid":"yes",
         "url":"http://poj.org/problem?id=",
         "begin":1000,
         "name":"<div class=\"ptt\" lang=\".+\">(.+)</div>",
@@ -95,7 +122,9 @@
     },
     "RQNOJ":{
         "id range":"1-771",
+        "_comment":"",
         "count":677,
+        "valid":"yes",
         "status":"done",
         "url":"http://www.rqnoj.cn/problem/",
         "begin":1,
@@ -106,12 +135,14 @@
         "language":"",
         "submit":"通过人数 .+ / (.+)</div>",
         "passed":"通过人数 (.+) / .+</div>",
-        "rate":""
+        "rate":"",
+        "end":""
     },
     "SIX":{
         "_comment":"宁波工程学院",
         "id range":"1000-1757",
         "count":1,
+        "valid":"yes",
         "status":"done",
         "url":"https://ac.2333.moe/Problem/view.xhtml?id=",
         "begin":1000,
@@ -122,13 +153,15 @@
         "language":"<meta http-equiv=\"Content-Language\" content=\"(.+)\" />",
         "submit":"",
         "passed":"",
-        "rate":""
+        "rate":"",
+        "end":""
     },
     "TIMUS":{
-        "_comment":"",
+        "_comment":"外国网站",
         "id range":"1000-2117",
         "count":1097,
         "status":"done",
+        "valid":"yes",
         "url":"http://acm.timus.ru/problem.aspx?space=1&num=",
         "begin":1000,
         "name":"<H2 class=\"problem_title\">(.+)</H2>",
@@ -138,11 +171,13 @@
         "language":"<A HREF=\".+\">(.+)</A>&nbsp;&nbsp;<",
         "submit":"All submissions ((.+))</A>",
         "passed":"All accepted submissions ((.+))</A>",
-        "rate":""
+        "rate":"",
+        "end":""
     },
     "UOJ":{
         "_comment":"",
         "id range":"1-465",
+        "valid":"yes",
         "status":"done",
         "count":394,
         "url":"http://uoj.ac/problem/",
@@ -154,13 +189,15 @@
         "language":"",
         "submit":"",
         "passed":"",
-        "rate":""
+        "rate":"",
+        "end":""
     },
     "USTC":{
         "_comment":"中国科学技术大学",
         "id range":"1000-1426",
         "count":337,
         "status":"done",
+        "valid":"yes",
         "url":"http://acm.ustc.edu.cn/ustcoj/problem.php?id=",
         "begin":1000,
         "name":["REGEX","<div class=\"problem_title\">(.+)</div>"],
@@ -170,7 +207,8 @@
         "language":"",
         "submit":"",
         "passed":"",
-        "rate":""
+        "rate":"",
+        "end":""
     },
     "VIJOS":{
         "_comment":"",
@@ -192,6 +230,7 @@
         "_comment":"西安电子科技大学",
         "id range":"1000-1421",
         "status":"done",
+        "valid":"no",
         "count":324,
         "url":"http://acm.xidian.edu.cn/problem.php?id=",
         "begin":1000,
@@ -202,12 +241,14 @@
         "language":"",
         "submit":"提交: </span>(.+)&nbsp;&nbsp;",
         "passed":"解决: </span>(.+)<br>",
-        "rate":""
+        "rate":"",
+        "end":""
     },
     "ZJUT":{
         "_comment":"浙江工业大学",
         "id range":"1000-1870",
         "status":"done",
+        "valid":"yes",
         "count":502,
         "url":"http://acm.zjut.edu.cn/onlinejudge/problem.php?id=",
         "begin":1000,
@@ -218,28 +259,14 @@
         "language":"",
         "submit":"Submit: </span>(.+)&nbsp;&nbsp;",
         "passed":"Solved: </span>(.+)<br>[",
-        "rate":""
-    },
-    "ZOJ":{
-        "_comment":"浙江大学",
-        "id range":"1000-4099",
-        "status":"done",
-        "count":3072,
-        "url":"http://acm.zju.edu.cn/onlinejudge/showProblem.do?problemCode=",
-        "begin":1001,
-        "name":"<center><span class=\"bigProblemTitle\">(.+)</span></center>",
-        "detail":"<td id=\"content\" style=\"vertical-align:top\">(.+)</td>.+</tr>.+</table>.+<div id=\"footer\">",
-        "level":"",
-        "cata":"",
-        "language":"",
-        "submit":"",
-        "passed":"",
-        "rate":""
+        "rate":"",
+        "end":""
     },
     "ZZULI":{
         "_comment":"郑州轻工业大学",
         "id range":"1000-1527",
         "status":"done",
+        "valid":"yes",
         "count":1227,
         "url":"http://acm.zzuli.edu.cn/problem.php?id=",
         "begin":1000,
@@ -250,6 +277,7 @@
         "language":"",
         "submit":"提交: </span>(.+)&nbsp;&nbsp;",
         "passed":"解决: </span>(.+)<br>",
-        "rate":""
+        "rate":"",
+        "end":""
     }
 }
