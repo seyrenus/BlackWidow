@@ -100,7 +100,6 @@ public:
             QString platformUrl = url + QString::number(currentNum);
             qDebug()<<"Spider::current url is: "<<platformUrl;
             QString context = getPlatformCtx(platformUrl);
-            qDebug()<<context;
 
             if(context.isEmpty()){
                 qDebug()<<"HTML context is empty";
@@ -123,7 +122,10 @@ public:
                 }
 
                 //插入数据库之前先进行相似度判断
-                QString md5 = checkout(detail);//计算字符串MD5值
+                //先把富文本转换为文本
+                QTextEdit text(detail);
+                QString simSource = text.toPlainText();
+                QString md5 = checkout(simSource);//计算字符串MD5值
                 int count =-1;
                 //先确定MD5值是否已经存在
                 sql = QString("select count(*) from md5 where value=:value");
@@ -268,6 +270,7 @@ private:
     QString getPlatformCtx(QString url)
     {
         assert(!endMark.isEmpty());
+
         QString source;//网页结果
         //******模拟浏览器****************
         request.setUrl(url);
