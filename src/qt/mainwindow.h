@@ -50,10 +50,6 @@ private slots:
 
     void on_actionGithub_triggered();
 
-    void on_QButtonShowTip_clicked();
-
-    void on_QButtonShowAnswer_clicked();
-
     void on_spiderButtonStart_clicked();
 
     void on_spiderButtonStartAll_clicked();
@@ -61,6 +57,10 @@ private slots:
     void on_spiderButtonStop_clicked();
 
     void on_spiderComboPlatform_currentIndexChanged(int index);
+
+    void on_actionTip_triggered();
+
+    void on_actionAnswer_triggered();
 
 private:
     Ui::MainWindow *ui;
