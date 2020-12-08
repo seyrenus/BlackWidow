@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>942</width>
-    <height>608</height>
+    <width>898</width>
+    <height>661</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -33,7 +33,7 @@
     <item row="0" column="0">
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="pageSpider">
        <layout class="QGridLayout" name="layoutGSpider">
@@ -129,75 +129,12 @@
         <property name="spacing">
          <number>1</number>
         </property>
-        <item row="4" column="3">
-         <widget class="QPushButton" name="QButtonShowAnswer">
-          <property name="text">
-           <string>Show</string>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="4">
-         <spacer name="QSpacerHAnswer">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item row="4" column="2">
-         <widget class="QLabel" name="QLabelAnswer">
-          <property name="text">
-           <string>Answer</string>
-          </property>
-         </widget>
-        </item>
-        <item row="5" column="2" rowspan="5" colspan="3">
-         <widget class="QPlainTextEdit" name="QTextAnswer"/>
-        </item>
-        <item row="3" column="2" colspan="3">
-         <widget class="QPlainTextEdit" name="QTextTip"/>
-        </item>
-        <item row="0" column="2">
-         <widget class="QLabel" name="QLabelTip">
-          <property name="text">
-           <string>Tip</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="3">
-         <widget class="QPushButton" name="QButtonShowTip">
-          <property name="text">
-           <string>Show</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="4">
-         <spacer name="QSpacerHTip">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
         <item row="0" column="1">
          <widget class="QLabel" name="QLabelQuestion">
           <property name="text">
            <string>Question</string>
           </property>
          </widget>
-        </item>
-        <item row="3" column="1" rowspan="7">
-         <widget class="QTextEdit" name="QTextQuestion"/>
         </item>
         <item row="0" column="0" rowspan="10">
          <widget class="QFrame" name="frameProperty">
@@ -223,15 +160,15 @@
            <property name="spacing">
             <number>1</number>
            </property>
-           <item row="1" column="2">
-            <widget class="QLineEdit" name="QLineName"/>
-           </item>
-           <item row="7" column="0" colspan="2">
-            <widget class="QLabel" name="QLabelRate">
+           <item row="5" column="0" colspan="2">
+            <widget class="QLabel" name="QLabelPassed">
              <property name="text">
-              <string>Rate</string>
+              <string>Passed</string>
              </property>
             </widget>
+           </item>
+           <item row="3" column="2">
+            <widget class="QComboBox" name="QCBPlatform"/>
            </item>
            <item row="3" column="0" colspan="2">
             <widget class="QLabel" name="QLabelPlatform">
@@ -240,59 +177,20 @@
              </property>
             </widget>
            </item>
-           <item row="0" column="2">
-            <widget class="QLineEdit" name="QLineId"/>
-           </item>
-           <item row="8" column="2">
-            <widget class="QPlainTextEdit" name="QPlainTextCata"/>
-           </item>
-           <item row="2" column="2">
-            <widget class="QComboBox" name="QCBLevel"/>
-           </item>
-           <item row="5" column="0" colspan="2">
-            <widget class="QLabel" name="QLabelPassed">
-             <property name="text">
-              <string>Passed</string>
-             </property>
-            </widget>
-           </item>
-           <item row="5" column="2" rowspan="2">
-            <widget class="QLineEdit" name="QLinePassed"/>
-           </item>
-           <item row="8" column="0" colspan="2">
-            <widget class="QLabel" name="QLabelCata">
-             <property name="text">
-              <string>Cata</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="0" colspan="2">
-            <widget class="QLabel" name="QLabelId">
-             <property name="text">
-              <string>Id</string>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="2">
-            <widget class="QComboBox" name="QCBPlatform"/>
-           </item>
-           <item row="9" column="0" colspan="3">
-            <spacer name="QSpacerVFrame">
-             <property name="orientation">
-              <enum>Qt::Vertical</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>357</width>
-               <height>0</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
            <item row="2" column="0" colspan="2">
             <widget class="QLabel" name="QLabelLevel">
              <property name="text">
               <string>Level</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="2">
+            <widget class="QComboBox" name="QCBLevel"/>
+           </item>
+           <item row="7" column="0" colspan="2">
+            <widget class="QLabel" name="QLabelRate">
+             <property name="text">
+              <string>Rate</string>
              </property>
             </widget>
            </item>
@@ -303,9 +201,6 @@
              </property>
             </widget>
            </item>
-           <item row="7" column="2">
-            <widget class="QLineEdit" name="QLineRate"/>
-           </item>
            <item row="1" column="0" colspan="2">
             <widget class="QLabel" name="QLabelName">
              <property name="text">
@@ -313,11 +208,93 @@
              </property>
             </widget>
            </item>
-           <item row="4" column="2">
-            <widget class="QLineEdit" name="QLineSubmit"/>
+           <item row="0" column="0" colspan="2">
+            <widget class="QLabel" name="QLabelId">
+             <property name="text">
+              <string>Id</string>
+             </property>
+            </widget>
+           </item>
+           <item row="8" column="0" colspan="2">
+            <widget class="QLabel" name="QLabelCata">
+             <property name="text">
+              <string>Cata</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="3">
+            <widget class="QCheckBox" name="QCheckPlatform">
+             <property name="text">
+              <string>Locked</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="3">
+            <widget class="QCheckBox" name="QCheckLevel">
+             <property name="text">
+              <string>Locked</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="2" colspan="2">
+            <widget class="QLineEdit" name="QLineSubmit">
+             <property name="readOnly">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="5" column="2" rowspan="2" colspan="2">
+            <widget class="QLineEdit" name="QLinePassed">
+             <property name="readOnly">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="7" column="2" colspan="2">
+            <widget class="QLineEdit" name="QLineRate">
+             <property name="readOnly">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="8" column="2" colspan="2">
+            <widget class="QPlainTextEdit" name="QPlainTextCata"/>
+           </item>
+           <item row="1" column="2" colspan="2">
+            <widget class="QLineEdit" name="QLineName">
+             <property name="readOnly">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="2" colspan="2">
+            <widget class="QLineEdit" name="QLineId"/>
+           </item>
+           <item row="10" column="2" colspan="2">
+            <widget class="QPlainTextEdit" name="QTextTip"/>
+           </item>
+           <item row="12" column="2" colspan="2">
+            <widget class="QPlainTextEdit" name="QTextAnswer"/>
+           </item>
+           <item row="9" column="0" rowspan="2" colspan="2">
+            <widget class="QLabel" name="QLabelTip">
+             <property name="text">
+              <string>Tip</string>
+             </property>
+            </widget>
+           </item>
+           <item row="11" column="0" rowspan="2" colspan="2">
+            <widget class="QLabel" name="QLabelAnswer">
+             <property name="text">
+              <string>Answer</string>
+             </property>
+            </widget>
            </item>
           </layout>
          </widget>
+        </item>
+        <item row="1" column="1" rowspan="9">
+         <widget class="QTextEdit" name="QTextQuestion"/>
         </item>
        </layout>
       </widget>
@@ -330,7 +307,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>942</width>
+     <width>898</width>
      <height>29</height>
     </rect>
    </property>
@@ -354,6 +331,9 @@
     <addaction name="actionClear"/>
     <addaction name="separator"/>
     <addaction name="actionDone"/>
+    <addaction name="separator"/>
+    <addaction name="actionTip"/>
+    <addaction name="actionAnswer"/>
    </widget>
    <widget class="QMenu" name="menu_View">
     <property name="title">
@@ -393,6 +373,8 @@
    <addaction name="actionNext"/>
    <addaction name="actionClear"/>
    <addaction name="actionDone"/>
+   <addaction name="actionTip"/>
+   <addaction name="actionAnswer"/>
    <addaction name="separator"/>
    <addaction name="actionExit"/>
    <addaction name="separator"/>
@@ -506,6 +488,24 @@
    </property>
    <property name="text">
     <string>Github</string>
+   </property>
+  </action>
+  <action name="actionTip">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/resources/icons/tips.svg</normaloff>:/resources/icons/tips.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Tip</string>
+   </property>
+  </action>
+  <action name="actionAnswer">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/resources/icons/answer.svg</normaloff>:/resources/icons/answer.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Answer</string>
    </property>
   </action>
  </widget>

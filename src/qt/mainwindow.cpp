@@ -10,6 +10,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     qDebug()<<"Main::MainWIndow()";
+    log("Main process started");
     //加载配置文件
     QString configPath = QDir::currentPath()+QDir::separator()+"config.json";
     jsonp = new JsonParser(configPath);
@@ -174,15 +175,18 @@ void MainWindow::on_actionExit_triggered()
 {
     qApp->exit(0);
 }
+
 //开始或结束题目操作
 void MainWindow::on_actionStart_End_triggered()
 {
+    log("Start/End action triggered");
     if(!isStart){
         qDebug()<<"Start examination";
         idMax = dbp->getMaxId("data");
         qDebug()<<"id max is: "<<idMax;
         displayDetailById(1);
         isStart = true;
+        ui->stackedWidget->setCurrentIndex(1);
     }
     else {
         qDebug()<<"Examination end";
@@ -193,6 +197,7 @@ void MainWindow::on_actionStart_End_triggered()
         on_actionClear_triggered();//清空界面
     }
 }
+
 //显示当前题号的上一题
 void MainWindow::on_actionPrevious_triggered()
 {
@@ -209,6 +214,7 @@ void MainWindow::on_actionPrevious_triggered()
     }
     isNext = false;
 }
+
 //显示当前题号的下一题
 void MainWindow::on_actionNext_triggered()
 {
@@ -226,6 +232,7 @@ void MainWindow::on_actionNext_triggered()
 
     isNext = true;
 }
+
 //清空界面内容
 void MainWindow::on_actionClear_triggered()
 {
@@ -257,6 +264,7 @@ void MainWindow::on_actionClear_triggered()
         break;
     }
 }
+
 //设置当前题目ID的状态，1表示会了
 void MainWindow::on_actionDone_triggered()
 {
@@ -277,6 +285,7 @@ void MainWindow::on_actionDone_triggered()
         return;
     }
 }
+
 //跳转到爬虫界面
 void MainWindow::on_actionSpider_triggered()
 {
@@ -284,6 +293,7 @@ void MainWindow::on_actionSpider_triggered()
     ui->stackedWidget->setCurrentIndex(0);
     this->setWindowTitle(tr("Spider"));
 }
+
 //跳转到问题界面
 void MainWindow::on_actionQuestion_triggered()
 {
@@ -313,54 +323,40 @@ void MainWindow::on_actionGithub_triggered()
 {
     QDesktopServices::openUrl(QUrl(IndexUrl));
 }
-//显示当前题目ID的提示
-void MainWindow::on_QButtonShowTip_clicked()
-{
-    if(!isStart) {
-        QMessageBox::information(this,tr("Warning"),tr("Please start questin first"),QMessageBox::Ok);
-        return;
-    }
-    if(spiderData.tip.isEmpty()) ui->QTextTip->setPlainText(QString("No tip"));
-    else ui->QTextTip->setPlainText(spiderData.tip);
-}
-//显示当前题目ID的答案
-void MainWindow::on_QButtonShowAnswer_clicked()
-{
-    if(!isStart) {
-        QMessageBox::information(this,tr("Warning"),tr("Please start questin first"),QMessageBox::Ok);
-        return;
-    }
-    if(spiderData.answer.isEmpty())
-        ui->QTextAnswer->setPlainText(QString("There is no answer now,please complete this question by yourself"));
-    else {
-        ui->QTextAnswer->setPlainText(spiderData.answer);
-    }
-}
+
 //开始当前平台的爬虫行为
 void MainWindow::on_spiderButtonStart_clicked()
 {
     qDebug()<<"Main::dbPath value is: "<<dbPath;
     QString platform = ui->spiderComboPlatform->currentText();
-    ojspider->Conf = jsonp->getPlatfromValues(platform);//重载运算符进行结构体赋值
-    qDebug()<<"Main::testing url is: "<<ojspider->Conf.url;
-    qDebug()<<"Main::testing end mark is: "<<ojspider->Conf.end;
+    qDebug()<<jsonp->getValue(platform,"status");
+    qDebug()<<jsonp->getValue(platform,"valid");
+    jsonp->updateValue(platform,"status","test");
+//    log("Button start clicked : "+platform);
+//    ojspider->Conf = jsonp->getPlatfromValues(platform);//重载运算符进行结构体赋值
+//    qDebug()<<"Main::testing url is: "<<ojspider->Conf.url;
 
-    ojspider->setdbPath(dbPath);
-    ojspider->setPlatformName(platform);
-    ojspider->setEndMark(ojspider->Conf.end);
-    qDebug()<<"Main::spider dbPath is: "<<ojspider->dbPath;
-    ojspider->run();
+    //ojspider->setdbPath(dbPath);
+    //ojspider->setPlatformName(platform);
+   // ojspider->setEndMark(ojspider->Conf.end);
+    //qDebug()<<"Main::spider dbPath is: "<<ojspider->dbPath;
+    //ojspider->run();
     //ojspider->start();
+    log("Button start running done");
 }
+
 //多线程获取数据，一次性获得所有平台数据
 void MainWindow::on_spiderButtonStartAll_clicked()
 {
 }
+
 //停止爬虫行为
 void MainWindow::on_spiderButtonStop_clicked()
 {
     ojspider->stop();
+    log("Button stop clicked");
 }
+
 //如果平台下拉框被修改，那么就重置界面
 void MainWindow::on_spiderComboPlatform_currentIndexChanged(int index)
 {
@@ -376,5 +372,28 @@ void MainWindow::on_spiderComboPlatform_currentIndexChanged(int index)
         model->setHorizontalHeaderItem(2,new QStandardItem("id"));
         ui->spiderTableView->horizontalHeader()->setStretchLastSection(true);
         ui->spiderTableView->setModel(model);
+    }
+}
+//显示当前题目ID的提示
+void MainWindow::on_actionTip_triggered()
+{
+    if(!isStart) {
+        QMessageBox::information(this,tr("Warning"),tr("Please start questin first"),QMessageBox::Ok);
+        return;
+    }
+    if(spiderData.tip.isEmpty()) ui->QTextTip->setPlainText(QString("No tip"));
+    else ui->QTextTip->setPlainText(spiderData.tip);
+}
+//显示当前题目ID的答案
+void MainWindow::on_actionAnswer_triggered()
+{
+    if(!isStart) {
+        QMessageBox::information(this,tr("Warning"),tr("Please start questin first"),QMessageBox::Ok);
+        return;
+    }
+    if(spiderData.answer.isEmpty())
+        ui->QTextAnswer->setPlainText(QString("There is no answer now,please complete this question by yourself"));
+    else {
+        ui->QTextAnswer->setPlainText(spiderData.answer);
     }
 }

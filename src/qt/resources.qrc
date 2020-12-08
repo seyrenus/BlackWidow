@@ -19,5 +19,7 @@
         <file>resources/themes/black.qss</file>
         <file>resources/icons/question.svg</file>
         <file>resources/user_agents.ini</file>
+        <file>resources/icons/tips.svg</file>
+        <file>resources/icons/answer.svg</file>
     </qresource>
 </RCC>

@@ -148,7 +148,7 @@ inline void log(QString logger) {
     if (file.open(QIODevice::ReadWrite | QIODevice::Text | QIODevice::Append)) {
         QTextStream writeOut(&file);
         writeOut.setCodec("UTF-8");
-        writeOut << datetime + " " + logger;
+        writeOut << datetime + " " + logger+'\n';
     }
     file.close();
 }

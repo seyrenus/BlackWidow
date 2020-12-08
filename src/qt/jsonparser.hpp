@@ -104,6 +104,48 @@ public:
         return value;
     }
 
+    QString getValue(QString platform,QString key){
+        QString value = nullptr;
+        QJsonParseError json_error;
+        QJsonDocument jsonDoc(QJsonDocument::fromJson(jsonData,&json_error));
+        if(json_error.error !=QJsonParseError::NoError){
+            qDebug()<<"json error: "<<json_error.errorString();
+            return value;
+        }
+        QJsonObject rootObj = jsonDoc.object();
+        if(!rootObj.contains(platform)){
+            qDebug()<<"Configuration didn't contain this platform: "<<platform;
+            return value;
+        }
+        QJsonObject platformObj = rootObj.value(platform).toObject();
+        value = platformObj.value(key).toString();
+
+        return value;
+    }
+
+    void updateValue(QString platform,QString key,QString value){
+        QJsonParseError json_error;
+        QJsonDocument jsonDoc(QJsonDocument::fromJson(jsonData,&json_error));
+        if(json_error.error!=QJsonParseError::NoError){
+            qDebug()<<"JsonParser()::json error: "<<json_error.errorString();
+            return;
+        }
+
+        QJsonObject rootObj = jsonDoc.object();
+        if(!rootObj.contains(platform)){
+            qDebug()<<"Configuration didn't contain this platform: "<<platform;
+            return ;
+        }
+        QJsonObject m_jsonObj = rootObj.value(platform).toObject();
+        m_jsonObj[key]=value;
+
+        if(jsonFile.open(QIODevice::WriteOnly|QIODevice::Text)){
+            QJsonDocument tempDoc(m_jsonObj);
+            jsonFile.write(tempDoc.toJson());
+        }
+        jsonFile.close();
+    }
+
     void updateValue(QString key,QString value){
         QJsonParseError json_error;
         QJsonDocument jsonDoc(QJsonDocument::fromJson(jsonData,&json_error));
@@ -119,6 +161,7 @@ public:
             QJsonDocument tempDoc(m_jsonObj);
             jsonFile.write(tempDoc.toJson());
         }
+        jsonFile.close();
     }
 };
 
